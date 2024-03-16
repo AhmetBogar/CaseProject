@@ -9,6 +9,6 @@ namespace CaseProject.DtoLayer.Dtos.Customer
     public class ResultCustomerDto
     {
         public int CustomerId { get; set; }
-        public string Name { get; set; }
+        public string CustomerName { get; set; }
     }
 }

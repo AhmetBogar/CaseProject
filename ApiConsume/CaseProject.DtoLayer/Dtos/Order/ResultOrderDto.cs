@@ -14,7 +14,10 @@ namespace CaseProject.DtoLayer.Dtos.Order
         public string OBJKEY { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public ResultCustomerDto Customer { get; set; }
-        public ResultSupplierDto Supplier { get; set; }
+        public int CustomerId { get; set; } 
+        public string CustomerName { get; set; }
+        public int SupplierId { get; set; }
+        public string SupplierName { get; set; }
+        public string AssociationNo { get; set; }
     }
 }

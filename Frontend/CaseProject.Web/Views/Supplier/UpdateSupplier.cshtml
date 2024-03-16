@@ -1,0 +1,30 @@
+﻿@using CaseProject.DtoLayer.Dtos.Supplier
+@model UpdateSupplierDto
+@{
+    ViewData["Title"] = "UpdateSupplier";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="card-body">
+        <div class="form-validation">
+            <form class="form-valide" method="post">
+                <input type="hidden" asp-for="SupplierId" />
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label" for="val-email">
+                        Müşteri Adı <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" asp-for="SupplierName" placeholder="Müşteri adı giriniz..">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-8 ml-auto">
+                        <button class="btn btn-primary">Kaydet</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CaseProject.DataAccessLayer\CaseProject.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\CaseProject.DtoLayer\CaseProject.DtoLayer.csproj" />
     <ProjectReference Include="..\CaseProject.EntityLayer\CaseProject.EntityLayer.csproj" />
   </ItemGroup>
 

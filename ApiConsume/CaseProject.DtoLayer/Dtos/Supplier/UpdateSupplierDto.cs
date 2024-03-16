@@ -9,6 +9,7 @@ namespace CaseProject.DtoLayer.Dtos.Supplier
     public class UpdateSupplierDto
     {
         public int SupplierId { get; set; }
-        public string Name { get; set; }
+        public string SupplierName { get; set; }
+        public string AssociationNo { get; set; }
     }
 }

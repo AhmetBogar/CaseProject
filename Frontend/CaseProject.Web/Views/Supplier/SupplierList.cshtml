@@ -1,0 +1,83 @@
+﻿@using CaseProject.DtoLayer.Dtos.Supplier
+@model List<ResultSupplierDto>
+@{
+    ViewData["Title"] = "SupplierList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .add-button, .edit-button, .delete-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+            .add-button:hover, .edit-button:hover, .delete-button:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+<body>
+
+    <h2>Supplier List</h2>
+
+    <a href="/Supplier/CreateSupplier" class="add-button">Add New Supplier</a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Supplier ID</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.SupplierId</td>
+                    <td>@item.SupplierName</td>
+                    <td>
+                        <a href="/Supplier/UpdateSupplier/@item.SupplierId" class="edit-button">Edit</a>
+                        <a href="/Supplier/DeleteSupplier/@item.SupplierId" class="delete-button">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</body>
+</html>
+
+
+
+

@@ -12,5 +12,7 @@ namespace CaseProject.DtoLayer.Dtos.Order
         public int CustomerId { get; set; }
         public int SupplierId { get; set; }
         public string OBJKEY { get; set; }
+        public DateTime CreatedDate { get; set; }
+
     }
 }

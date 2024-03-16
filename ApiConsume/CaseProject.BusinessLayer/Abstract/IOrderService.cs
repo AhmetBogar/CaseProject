@@ -1,4 +1,5 @@
-﻿using CaseProject.EntityLayer.Concrete;
+﻿using CaseProject.DtoLayer.Dtos.Order;
+using CaseProject.EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace CaseProject.BusinessLayer.Abstract
 {
     public interface IOrderService:IGenericService<Order>
     {
+        Task<List<ResultOrderDto>> GetOrdersWithDetails();
     }
 }

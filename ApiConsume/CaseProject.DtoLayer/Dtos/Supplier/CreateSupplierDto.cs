@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace CaseProject.DtoLayer.Dtos.Supplier
 {
-    public record CreateSupplierDto(string Name);
+    public record CreateSupplierDto(string SupplierName,string AssociationNo);
 }

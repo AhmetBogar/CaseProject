@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace CaseProject.DtoLayer.Dtos.Customer
 {
-    public record UpdateCustomerDto(int CustomerId,string Name);
+    public record UpdateCustomerDto(int CustomerId,string CustomerName);
 
 }

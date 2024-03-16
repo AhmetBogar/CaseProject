@@ -9,7 +9,7 @@ namespace CaseProject.EntityLayer.Concrete
     public class Customer
     {
         public int CustomerId { get; set; }
-        public string Name { get; set; }
+        public string CustomerName { get; set; }
 
         public List<Order> Orders { get; set; }
 

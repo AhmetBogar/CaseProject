@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sipariş Listesi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+
+        .filter-select {
+            width: calc(50% - 20px); /* Combobox genişliği */
+            padding: 4px 8px; /* Combobox iç boşlukları */
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-top: 4px; /* Üst boşluk */
+        }
+
+        .mb-3 {
+            margin-bottom: 10px; /* Filtreler arası boşluk */
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -5px;
+            margin-left: -5px;
+        }
+
+        .col {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding-right: 5px;
+            padding-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Sipariş Listesi</h2>
+        <div class="row">
+            <div class="col">
+                <div id="filters-left" class="mb-3"></div>
+            </div>
+            <div class="col">
+                <div id="filters-right" class="mb-3"></div>
+            </div>
+        </div>
+        <div id="orderTable"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: "http://localhost:5062/api/Order",
+                type: "GET",
+                success: function (data) {
+                    displayOrderList(data);
+                    createFilters(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error("AJAX Error:", status, error);
+                }
+            });
+        });
+
+        function displayOrderList(orders) {
+            var table = "<table class='table'><thead><tr><th>CUSTOMER_ID</th><th>NAME</th><th>CREATION_DATE</th><th>ASSOCIATION_NO</th><th>OBJKEY</th></tr></thead><tbody>";
+            $.each(orders, function (index, order) {
+                table += "<tr><td>" + order.customerId + "</td><td>" + order.customerName + "</td><td>" + order.createdDate + "</td><td>" + order.supplierId + "</td><td>" + order.objkey + "</td></tr>";
+            });
+            table += "</tbody></table>";
+            $("#orderTable").html(table);
+        }
+
+        function createFilters(data) {
+            var leftFiltersHtml = "";
+            var rightFiltersHtml = "";
+            var columns = ['customerId', 'customerName', 'createdDate', 'supplierId', 'objkey'];
+            columns.forEach(function (column, index) {
+                var filtersHtml = "<label for='" + column + "'>" + column.toUpperCase() + "</label><select id='" + column + "' class='filter-select'><option value=''>Tümü</option>";
+                var values = [];
+                data.forEach(function (item) {
+                    if (!values.includes(item[column])) {
+                        values.push(item[column]);
+                        filtersHtml += "<option value='" + item[column] + "'>" + item[column] + "</option>";
+                    }
+                });
+                filtersHtml += "</select>";
+                if (index < 2) {
+                    leftFiltersHtml += "<div class='mb-3'>" + filtersHtml + "</div>";
+                } else {
+                    rightFiltersHtml += "<div class='mb-3'>" + filtersHtml + "</div>";
+                }
+            });
+            $("#filters-left").html(leftFiltersHtml);
+            $("#filters-right").html(rightFiltersHtml);
+
+            $(".filter-select").change(function () {
+                var filters = {};
+                $(".filter-select").each(function () {
+                    var column = $(this).attr("id");
+                    var value = $(this).val();
+                    if (value !== "") {
+                        filters[column] = value;
+                    }
+                });
+
+                var filteredData = data.filter(function (item) {
+                    for (var column in filters) {
+                        if (item[column] !== filters[column]) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+
+                displayOrderList(filteredData);
+            });
+        }
+    </script>
+</body>
+</html>

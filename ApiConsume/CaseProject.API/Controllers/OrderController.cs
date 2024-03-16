@@ -23,7 +23,7 @@ namespace CaseProject.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
-            var values = await _orderService.TGetListAsync();
+            var values = await _orderService.GetOrdersWithDetails();
             return Ok(values);
         }
         [HttpGet("{id}")]
