@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 public class CreateMailDto
 {
@@ -16,20 +12,46 @@ public class CreateMailDto
     public int SupplierId { get; set; }
     public string SupplierName { get; set; }
     public string AssociationNo { get; set; }
+
     public string Body
     {
         get
         {
-            return "<table border='1'>" +
-                   "<tr><th>OrderId</th><td>" + OrderId + "</td></tr>" +
-                   "<tr><th>OBJKEY</th><td>" + OBJKEY + "</td></tr>" +
-                   "<tr><th>CreatedDate</th><td>" + CreatedDate + "</td></tr>" +
-                   "<tr><th>CustomerId</th><td>" + CustomerId + "</td></tr>" +
-                   "<tr><th>CustomerName</th><td>" + CustomerName + "</td></tr>" +
-                   "<tr><th>SupplierId</th><td>" + SupplierId + "</td></tr>" +
-                   "<tr><th>SupplierName</th><td>" + SupplierName + "</td></tr>" +
-                   "<tr><th>AssociationNo</th><td>" + AssociationNo + "</td></tr>" +
-                   "</table>";
+            return $@"
+                <table style='border-collapse: collapse; width: 100%;'>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Order ID</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{OrderId}</td>
+                    </tr>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Object Key</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{OBJKEY}</td>
+                    </tr>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Created Date</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{CreatedDate}</td>
+                    </tr>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Customer ID</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{CustomerId}</td>
+                    </tr>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Customer Name</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{CustomerName}</td>
+                    </tr>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Supplier ID</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{SupplierId}</td>
+                    </tr>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Supplier Name</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{SupplierName}</td>
+                    </tr>
+                    <tr style='background-color: #f8f9fa;'>
+                        <th style='border: 1px solid #dee2e6; padding: 8px;'>Association No</th>
+                        <td style='border: 1px solid #dee2e6; padding: 8px;'>{AssociationNo}</td>
+                    </tr>
+                </table>";
         }
     }
 }
