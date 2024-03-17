@@ -2,61 +2,20 @@
 @model List<ResultSupplierDto>
 @{
     ViewData["Title"] = "SupplierList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Supplier List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+<div class="container">
+    <h2 style="color: #007bff; font-family: 'Arial', sans-serif; font-weight: bold; margin-bottom: 20px;">Tedarikçi Listesi</h2>
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+    <a href="/Supplier/CreateSupplier" class="add-button" style="background-color: #007bff; color: #fff; font-family: 'Arial', sans-serif; font-weight: bold; text-decoration: none; border-radius: 5px; padding: 10px 20px; margin-bottom: 20px; display: inline-block;">Yeni Tedarikçi Ekle</a>
 
-        th {
-            background-color: #f2f2f2;
-        }
-
-        .add-button, .edit-button, .delete-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 16px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin-right: 5px;
-            cursor: pointer;
-        }
-
-            .add-button:hover, .edit-button:hover, .delete-button:hover {
-                background-color: #0056b3;
-            }
-    </style>
-</head>
-<body>
-
-    <h2>Supplier List</h2>
-
-    <a href="/Supplier/CreateSupplier" class="add-button">Add New Supplier</a>
-
-    <table>
-        <thead>
+    <table class="table">
+        <thead style="background-color: #007bff; color: white; font-family: 'Arial', sans-serif; font-weight: bold;">
             <tr>
                 <th>Supplier ID</th>
                 <th>Name</th>
+                <th>Association No</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -66,18 +25,78 @@
                 <tr>
                     <td>@item.SupplierId</td>
                     <td>@item.SupplierName</td>
+                    <td>@item.AssociationNo</td>
                     <td>
-                        <a href="/Supplier/UpdateSupplier/@item.SupplierId" class="edit-button">Edit</a>
-                        <a href="/Supplier/DeleteSupplier/@item.SupplierId" class="delete-button">Delete</a>
+                        <a href="/Supplier/UpdateSupplier/@item.SupplierId" class="btn btn-warning">Güncelle</a>
+                        <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal_@item.SupplierId">Sil</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
 
-</body>
-</html>
+@foreach (var item in Model)
+{
+    <div class="modal fade" id="deleteModal_@item.SupplierId" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel_@item.SupplierId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel_@item.SupplierId">Tedarikçiyi Sil</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Bu tedarikçiyi silmek istediğinizden emin misiniz?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                    <a href="/Supplier/DeleteSupplier/@item.SupplierId" class="btn btn-danger">Sil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
+<style>
+    body {
+        background-color: #f8f9fa;
+        color: #343a40;
+        margin: 0;
+        padding: 0;
+    }
 
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 12px;
+    }
 
+    .add-button {
+        display: inline-block;
+    }
+
+    .btn {
+        border-radius: 5px;
+        padding: 8px 16px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+</style>

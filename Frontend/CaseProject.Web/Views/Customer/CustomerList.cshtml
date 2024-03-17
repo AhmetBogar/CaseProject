@@ -1,61 +1,41 @@
 ﻿@using CaseProject.DtoLayer.Dtos.Customer
 @model List<ResultCustomerDto>
 @{
-    ViewData["Title"] = "CustomerList";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "SupplierList";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+<!-- Bootstrap modal -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Müşteriyi Sil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Müşteriyi silmek istediğinizden emin misiniz?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap modal end -->
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
+<div class="container">
+    <h2 style="color: #007bff; font-family: 'Arial', sans-serif; font-weight: bold; margin-bottom: 20px;">Müşteri Listesi</h2>
 
-        th {
-            background-color: #f2f2f2;
-        }
+    <a href="/Customer/CreateCustomer" class="add-button" style="background-color: #007bff; color: #fff; font-family: 'Arial', sans-serif; font-weight: bold; text-decoration: none; border-radius: 5px; padding: 10px 20px; margin-bottom: 20px; display: inline-block;">Yeni Müşteri Ekle</a>
 
-        .add-button, .edit-button, .delete-button {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            padding: 8px 16px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 14px;
-            margin-right: 5px;
-            cursor: pointer;
-        }
-
-            .add-button:hover, .edit-button:hover, .delete-button:hover {
-                background-color: #0056b3;
-            }
-    </style>
-</head>
-<body>
-
-    <h2>Customer List</h2>
-
-    <a href="/Customer/CreateCustomer" class="add-button">Add New Customer</a>
-
-    <table>
-        <thead>
+    <table class="table">
+        <thead style="background-color: #007bff; color: white; font-family: 'Arial', sans-serif; font-weight: bold;">
             <tr>
-                <th>Customer ID</th>
+                <th>Supplier ID</th>
                 <th>Name</th>
                 <th>Actions</th>
             </tr>
@@ -67,17 +47,70 @@
                     <td>@item.CustomerId</td>
                     <td>@item.CustomerName</td>
                     <td>
-                        <a href="/Customer/UpdateCustomer/@item.CustomerId" class="edit-button">Edit</a>
-                        <a href="/Customer/DeleteCustomer/@item.CustomerId" class="delete-button">Delete</a>
+                        <a href="/Customer/UpdateCustomer/@item.CustomerId" class="btn btn-warning">Güncelle</a>
+                        <button class="btn btn-danger delete-button" data-customerid="@item.CustomerId">Sil</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
 
-</body>
-</html>
+<script>
+    $(document).ready(function () {
+        // Silme işlemi için modal açılışını ve id'sini belirler
+        $('.delete-button').click(function () {
+            var customerId = $(this).data('customerid');
+            $('#confirmDeleteModal').modal('show');
+            $('#confirmDeleteButton').data('customerid', customerId);
+        });
 
+        // Silme işlemi onaylandığında
+        $('#confirmDeleteButton').click(function () {
+            var customerId = $(this).data('customerid');
+            window.location.href = '/Customer/DeleteCustomer/' + customerId;
+        });
+    });
+</script>
 
+<style>
+    body {
+        background-color: #f8f9fa;
+        color: #343a40;
+        margin: 0;
+        padding: 0;
+    }
 
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
 
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 12px;
+    }
+
+    .add-button {
+        display: inline-block;
+    }
+
+    .btn {
+        border-radius: 5px;
+        padding: 8px 16px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+        margin-right: 5px;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: #fff;
+    }
+</style>

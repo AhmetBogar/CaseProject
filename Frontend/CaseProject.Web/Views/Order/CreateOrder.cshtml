@@ -1,0 +1,113 @@
+﻿@using CaseProject.DtoLayer.Dtos.Order
+@model CreateOrderDto
+@{
+    ViewData["Title"] = "CreateOrder";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+
+<div class="container">
+    <div class="card-body">
+        <div class="form-validation">
+            <form class="form-valide" method="post">
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label" for="val-email">
+                        Model Adı <span class="text-danger">*</span>
+                    </label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" asp-for="OBJKEY" placeholder="OBJKEY giriniz..">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label" for="val-customer">
+                        Müşteri
+                    </label>
+                    <div class="col-lg-6">
+                        <select class="form-control" id="CustomerIdSelect" name="CustomerId"></select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label" for="val-supplier">
+                        Tedarikçi
+                    </label>
+                    <div class="col-lg-6">
+                        <select class="form-control" id="SupplierIdSelect" name="SupplierId"></select>
+                    </div>
+                </div>
+
+                <!-- CreatedDate için eklenen alan -->
+                <div class="form-group row">
+                    <label class="col-lg-4 col-form-label">
+                        Oluşturulma Tarihi
+                    </label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="CreatedDate" readonly>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-lg-8 ml-auto">
+                        <button class="btn btn-primary">Kaydet</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Datepicker kütüphanesi -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.11.0/css/bootstrap-datepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.11.0/js/bootstrap-datepicker.min.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Oluşturulma Tarihini al
+        var createdDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+        $('#CreatedDate').val(createdDate);
+
+        // Müşteri bilgilerini çekme
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:5062/api/Customer",
+            dataType: "json",
+            success: function (customers) {
+                var selectCustomer = $("#CustomerIdSelect");
+                $.each(customers, function (index, customer) {
+                    selectCustomer.append($("<option>", {
+                        value: customer.customerId,
+                        text: customer.customerName
+                    }));
+                });
+            },
+            error: function () {
+                console.error("Müşteriler alınamadı.");
+            }
+        });
+
+        // Tedarikçi bilgilerini çekme
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:5062/api/Supplier",
+            dataType: "json",
+            success: function (suppliers) {
+                var selectSupplier = $("#SupplierIdSelect");
+                $.each(suppliers, function (index, supplier) {
+                    selectSupplier.append($("<option>", {
+                        value: supplier.supplierId,
+                        text: supplier.supplierName
+                    }));
+                });
+            },
+            error: function () {
+                console.error("Tedarikçiler alınamadı.");
+            }
+        });
+    });
+</script>
+
+
+

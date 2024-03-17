@@ -36,13 +36,14 @@ namespace CaseProject.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderDto createOrderDto)
         {
+            createOrderDto.CreatedDate= DateTime.Now;
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createOrderDto);
             StringContent content = new StringContent(jsonData, Encoding.UTF8, "application/json");
             var responseMessage = await client.PostAsync("http://localhost:5062/api/Order", content);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("OrderList");
+                return RedirectToAction("Index");
             }
             return View();
         }
@@ -52,7 +53,7 @@ namespace CaseProject.Web.Controllers
             var responseMessage = await client.DeleteAsync("http://localhost:5062/api/Order?id=" + id);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("OrderList");
+                return RedirectToAction("Index");
             }
             return View();
         }
@@ -67,7 +68,7 @@ namespace CaseProject.Web.Controllers
                 var values = JsonConvert.DeserializeObject<UpdateOrderDto>(jsonData);
                 return View(values);
             }
-            return RedirectToAction("OrderList");
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> UpdateOrder(UpdateOrderDto updateOrderDto)
@@ -78,7 +79,7 @@ namespace CaseProject.Web.Controllers
             var responseMessage = await client.PutAsync("http://localhost:5062/api/Order", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
-                return RedirectToAction("OrderList");
+                return RedirectToAction("Index");
             }
             return View();
         }

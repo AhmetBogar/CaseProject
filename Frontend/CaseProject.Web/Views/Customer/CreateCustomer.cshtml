@@ -2,31 +2,66 @@
 @model CreateCustomerDto
 @{
     ViewData["Title"] = "CreateCustomer";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 
+
+
+<style>
+    /* Başlık ve form arasındaki boşluğu ayarlar */
+    .card-header {
+        margin-bottom: 20px;
+    }
+
+    /* Form elemanları arasındaki boşluğu ayarlar */
+    .mb-3.row {
+        margin-bottom: 15px;
+    }
+
+    /* Butonu güzelleştirme */
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .btn-primary:focus, .btn-primary.focus {
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+        }
+</style>
+
 <div class="container">
-    <div class="card-body">
-        <div class="form-validation">
-            <form class="form-valide" method="post">
-                <div class="form-group row">
-                    <label class="col-lg-4 col-form-label" for="val-email">
-                        Müşteri Adı <span class="text-danger">*</span>
-                    </label>
-                    <div class="col-lg-6">
-                        <input type="text" class="form-control" asp-for="CustomerName" placeholder="Müşteri adı giriniz..">
-                    </div>
-                </div>              
-                <div class="form-group row">
-                    <div class="col-lg-8 ml-auto">
-                        <button class="btn btn-primary">Kaydet</button>
-                    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header">
+                    <h5 class="card-title text-center">Yeni Müşteri Oluştur</h5>
                 </div>
-            </form>
+                <div class="card-body">
+                    <form class="form-validation" method="post">
+                        <div class="mb-3 row">
+                            <label for="CustomerName" class="col-lg-4 col-form-label text-lg-end">Müşteri Adı <span class="text-danger">*</span></label>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" id="CustomerName" asp-for="CustomerName" placeholder="Müşteri adı giriniz.." required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3 row justify-content-center">
+                            <div class="col-lg-8">
+                                <button type="submit" class="btn btn-primary w-100">Kaydet</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-   
 </div>
+
 
 
 

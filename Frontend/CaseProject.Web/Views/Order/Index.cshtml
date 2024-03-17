@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    ViewData["Title"] = "TestLayout";
+    Layout = "~/Views/Shared/_adminLayout.cshtml";
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -101,6 +106,8 @@
 <body>
     <div class="container">
         <h2 class="mb-4">Sipariş Listesi</h2>
+        <!-- Yeni Sipariş Butonu -->
+        <a href="/Order/CreateOrder" class="add-button" style="background-color: #007bff; color: #fff; font-family: 'Arial', sans-serif; font-weight: bold; text-decoration: none; border-radius: 5px; padding: 10px 20px; margin-bottom: 20px; display: inline-block;">Yeni Sipariş Ekle</a>
         <div class="row">
             <div class="col">
                 <div id="filters-left" class="mb-3"></div>
@@ -136,10 +143,19 @@
         function displayOrderList(orders) {
             var table = "<table class='table'><thead><tr><th>CUSTOMER_ID</th><th>NAME</th><th>CREATION_DATE</th><th>ASSOCIATION_NO</th><th>OBJKEY</th><th>ACTION</th></tr></thead><tbody>";
             $.each(orders, function (index, order) {
-                table += "<tr><td>" + order.customerId + "</td><td>" + order.customerName + "</td><td>" + order.createdDate + "</td><td>" + order.associationNo + "</td><td>" + order.objkey + "</td><td><button class='btn btn-primary email-button' data-order-id='" + order.orderId + "'>E-mail Gönder</button></td></tr>";
+                var creationDate = formatDate(order.createdDate);
+                table += "<tr><td>" + order.customerId + "</td><td>" + order.customerName + "</td><td>" + creationDate + "</td><td>" + order.associationNo + "</td><td>" + order.objkey + "</td><td><button class='btn btn-primary email-button' data-order-id='" + order.orderId + "'>E-mail Gönder</button></td></tr>";
             });
             table += "</tbody></table>";
             $("#orderTable").html(table);
+        }
+
+        function formatDate(dateString) {
+            var date = new Date(dateString);
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear();
+            return day + "/" + month + "/" + year;
         }
 
         function createFilters(data) {
