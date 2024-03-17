@@ -73,5 +73,26 @@ namespace CaseProject.BusinessLayer.Concrete
 
             return orders;
         }
+        public async Task<ResultOrderDto> GetOrderDetailsById(int orderId)
+        {
+            var order = await _context.Orders
+                .Where(o => o.OrderId == orderId)
+                .Include(o => o.Customer)
+                .Include(o => o.Supplier)
+                .Select(o => new ResultOrderDto
+                {
+                    OrderId = o.OrderId,
+                    CustomerName = o.Customer.CustomerName,
+                    CustomerId = o.Customer.CustomerId,
+                    SupplierId = o.SupplierId,
+                    SupplierName = o.Supplier.SupplierName,
+                    CreatedDate = o.CreatedDate,
+                    OBJKEY = o.OBJKEY,
+                    AssociationNo = o.Supplier.AssociationNo
+                })
+                .FirstOrDefaultAsync();
+
+            return order;
+        }
     }
 }

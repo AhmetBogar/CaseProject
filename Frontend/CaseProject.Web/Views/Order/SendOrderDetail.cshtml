@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "asd";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="email"],
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* Butonun en üste taşınması için eklenmiştir */
+        }
+
+            button[type="submit"]:hover {
+                background-color: #0056b3;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Order Details</h1>
+
+        <form method="post" action="/Order/SendOrderDetail">
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="Subject" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="to">To:</label>
+                <input type="email" id="to" name="To" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="orderId">Order ID:</label>
+                <input type="text" id="orderId" name="OrderId" value="@Model.OrderId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="objKey">Object Key:</label>
+                <input type="text" id="objKey" name="OBJKEY" value="@Model.OBJKEY" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="createdDate">Created Date:</label>
+                <input type="text" id="createdDate" name="CreatedDate" value="@Model.CreatedDate.ToString("yyyy-MM-ddTHH:mm:ss")" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="customerId">Customer ID:</label>
+                <input type="text" id="customerId" name="CustomerId" value="@Model.CustomerId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="customerName">Customer Name:</label>
+                <input type="text" id="customerName" name="CustomerName" value="@Model.CustomerName" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="supplierId">Supplier ID:</label>
+                <input type="text" id="supplierId" name="SupplierId" value="@Model.SupplierId" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="supplierName">Supplier Name:</label>
+                <input type="text" id="supplierName" name="SupplierName" value="@Model.SupplierName" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label for="associationNo">Association No:</label>
+                <input type="text" id="associationNo" name="AssociationNo" value="@Model.AssociationNo" class="form-control" readonly />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Email</button>
+        </form>
+    </div>
+</body>
+<br />
+<br />
+<br />
+<br />
+
+</html>

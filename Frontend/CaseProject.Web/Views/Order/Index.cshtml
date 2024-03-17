@@ -1,59 +1,105 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sipariş Listesi</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        h2 {
+            color: #007bff;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         table, th, td {
-            border: 1px solid #ddd;
+            border: 1px solid #dee2e6;
         }
 
         th, td {
-            padding: 8px;
+            padding: 12px;
             text-align: left;
         }
 
         th {
-            background-color: #f2f2f2;
-            color: #333;
+            background-color: #007bff;
+            color: white;
         }
 
-        .filter-select {
-            width: calc(50% - 20px); /* Combobox genişliği */
-            padding: 4px 8px; /* Combobox iç boşlukları */
+        select {
+            width: 100%;
+            padding: 8px;
             border-radius: 4px;
             box-sizing: border-box;
-            margin-top: 4px; /* Üst boşluk */
         }
 
         .mb-3 {
-            margin-bottom: 10px; /* Filtreler arası boşluk */
+            margin-bottom: 20px;
         }
 
         .row {
             display: flex;
             flex-wrap: wrap;
-            margin-right: -5px;
-            margin-left: -5px;
+            margin-right: -10px;
+            margin-left: -10px;
         }
 
         .col {
             flex: 0 0 50%;
             max-width: 50%;
-            padding-right: 5px;
-            padding-left: 5px;
+            padding-right: 10px;
+            padding-left: 10px;
         }
+
+        .filter-select {
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            background-color: #fff;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+            .filter-select:focus {
+                border-color: #80bdff;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            border-radius: 4px;
+        }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+                border-color: #0056b3;
+            }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container">
         <h2 class="mb-4">Sipariş Listesi</h2>
         <div class="row">
             <div class="col">
@@ -80,12 +126,17 @@
                     console.error("AJAX Error:", status, error);
                 }
             });
+
+            $("#orderTable").on("click", ".email-button", function () {
+                var orderId = $(this).data("order-id");
+                window.location.href = "/Order/SendOrderDetail?orderId=" + orderId; // OrderId'yi URL'ye ekleyerek yönlendirme yap
+            });
         });
 
         function displayOrderList(orders) {
-            var table = "<table class='table'><thead><tr><th>CUSTOMER_ID</th><th>NAME</th><th>CREATION_DATE</th><th>ASSOCIATION_NO</th><th>OBJKEY</th></tr></thead><tbody>";
+            var table = "<table class='table'><thead><tr><th>CUSTOMER_ID</th><th>NAME</th><th>CREATION_DATE</th><th>ASSOCIATION_NO</th><th>OBJKEY</th><th>ACTION</th></tr></thead><tbody>";
             $.each(orders, function (index, order) {
-                table += "<tr><td>" + order.customerId + "</td><td>" + order.customerName + "</td><td>" + order.createdDate + "</td><td>" + order.supplierId + "</td><td>" + order.objkey + "</td></tr>";
+                table += "<tr><td>" + order.customerId + "</td><td>" + order.customerName + "</td><td>" + order.createdDate + "</td><td>" + order.associationNo + "</td><td>" + order.objkey + "</td><td><button class='btn btn-primary email-button' data-order-id='" + order.orderId + "'>E-mail Gönder</button></td></tr>";
             });
             table += "</tbody></table>";
             $("#orderTable").html(table);
@@ -94,21 +145,23 @@
         function createFilters(data) {
             var leftFiltersHtml = "";
             var rightFiltersHtml = "";
-            var columns = ['customerId', 'customerName', 'createdDate', 'supplierId', 'objkey'];
+            var columns = ['customerId', 'customerName', 'createdDate', 'associationNo', 'objkey'];
             columns.forEach(function (column, index) {
-                var filtersHtml = "<label for='" + column + "'>" + column.toUpperCase() + "</label><select id='" + column + "' class='filter-select'><option value=''>Tümü</option>";
-                var values = [];
-                data.forEach(function (item) {
-                    if (!values.includes(item[column])) {
-                        values.push(item[column]);
-                        filtersHtml += "<option value='" + item[column] + "'>" + item[column] + "</option>";
+                if (column !== 'customerId') {
+                    var filtersHtml = "<label for='" + column + "'>" + column.toUpperCase() + "</label><select id='" + column + "' class='filter-select'><option value=''>Tümü</option>";
+                    var values = [];
+                    data.forEach(function (item) {
+                        if (!values.includes(item[column])) {
+                            values.push(item[column]);
+                            filtersHtml += "<option value='" + item[column] + "'>" + item[column] + "</option>";
+                        }
+                    });
+                    filtersHtml += "</select>";
+                    if (index < 3) {
+                        leftFiltersHtml += "<div class='mb-3'>" + filtersHtml + "</div>";
+                    } else {
+                        rightFiltersHtml += "<div class='mb-3'>" + filtersHtml + "</div>";
                     }
-                });
-                filtersHtml += "</select>";
-                if (index < 2) {
-                    leftFiltersHtml += "<div class='mb-3'>" + filtersHtml + "</div>";
-                } else {
-                    rightFiltersHtml += "<div class='mb-3'>" + filtersHtml + "</div>";
                 }
             });
             $("#filters-left").html(leftFiltersHtml);
@@ -136,6 +189,7 @@
                 displayOrderList(filteredData);
             });
         }
+
     </script>
 </body>
 </html>

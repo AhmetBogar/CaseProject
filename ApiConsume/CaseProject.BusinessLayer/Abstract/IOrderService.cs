@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace CaseProject.BusinessLayer.Abstract
 {
-    public interface IOrderService:IGenericService<Order>
+    public interface IOrderService : IGenericService<Order>
     {
         Task<List<ResultOrderDto>> GetOrdersWithDetails();
+        Task<ResultOrderDto> GetOrderDetailsById(int orderId);
     }
 }

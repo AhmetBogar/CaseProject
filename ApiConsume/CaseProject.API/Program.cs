@@ -1,8 +1,10 @@
+using CaseProject.API.Services.EmailMailKit;
 using CaseProject.BusinessLayer.Abstract;
 using CaseProject.BusinessLayer.Concrete;
 using CaseProject.DataAccessLayer.Abstract;
 using CaseProject.DataAccessLayer.Concrete;
 using CaseProject.DataAccessLayer.EntityFramework;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,8 @@ builder.Services.AddScoped<IOrderService, OrderManager>();
 
 builder.Services.AddScoped<ISupplierDal, EfSupplierDal>();
 builder.Services.AddScoped<ISupplierService, SupplierManager>();
+
+builder.Services.AddScoped<IEmailSenderService, EmailSenderService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

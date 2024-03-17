@@ -29,7 +29,7 @@ namespace CaseProject.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
-            var value = await _orderService.TGetByIdAsync(id);
+            var value = await _orderService.GetOrderDetailsById(id);
             return Ok(value);
         }
         [HttpDelete]
