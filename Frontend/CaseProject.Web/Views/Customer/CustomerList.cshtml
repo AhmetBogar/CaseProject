@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_adminLayout.cshtml";
 }
 
-<!-- Bootstrap modal -->
+
 <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>
-<!-- Bootstrap modal end -->
+
 
 <div class="container">
     <h2 style="color: #007bff; font-family: 'Arial', sans-serif; font-weight: bold; margin-bottom: 20px;">Müşteri Listesi</h2>
@@ -58,14 +58,14 @@
 
 <script>
     $(document).ready(function () {
-        // Silme işlemi için modal açılışını ve id'sini belirler
+
         $('.delete-button').click(function () {
             var customerId = $(this).data('customerid');
             $('#confirmDeleteModal').modal('show');
             $('#confirmDeleteButton').data('customerid', customerId);
         });
 
-        // Silme işlemi onaylandığında
+
         $('#confirmDeleteButton').click(function () {
             var customerId = $(this).data('customerid');
             window.location.href = '/Customer/DeleteCustomer/' + customerId;

@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <!-- CreatedDate için eklenen alan -->
+
                 <div class="form-group row">
                     <label class="col-lg-4 col-form-label">
                         Oluşturulma Tarihi
@@ -57,19 +57,19 @@
     </div>
 </div>
 
-<!-- Bootstrap Datepicker kütüphanesi -->
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.11.0/css/bootstrap-datepicker.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.11.0/js/bootstrap-datepicker.min.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        // Oluşturulma Tarihini al
+
         var createdDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
         $('#CreatedDate').val(createdDate);
 
-        // Müşteri bilgilerini çekme
+
         $.ajax({
             type: "GET",
             url: "http://localhost:5062/api/Customer",
@@ -88,7 +88,7 @@
             }
         });
 
-        // Tedarikçi bilgilerini çekme
+
         $.ajax({
             type: "GET",
             url: "http://localhost:5062/api/Supplier",
