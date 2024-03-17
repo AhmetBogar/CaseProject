@@ -18,7 +18,7 @@ namespace CaseProject.API.Services.EmailMailKit
         public Task SendEmailAsync(CreateMailDto createMailDto)
         {
             var email = new MimeMessage();
-            email.From.Add(MailboxAddress.Parse("adrianna16@ethereal.email"));
+            email.From.Add(MailboxAddress.Parse("egeriatestmail@gmail.com"));
             email.To.Add(MailboxAddress.Parse(createMailDto.To));
             email.Subject = createMailDto.Subject;
             email.Body = new TextPart(TextFormat.Html) { Text = createMailDto.Body };
